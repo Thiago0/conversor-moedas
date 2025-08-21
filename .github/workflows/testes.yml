@@ -1,0 +1,37 @@
+# .github/workflows/testes.yml
+
+# Nome do nosso workflow
+name: Executar Testes
+
+# O gatilho: rodar sempre que houver um 'push' na branch 'main'
+on:
+  push:
+    branches: [ "main" ]
+
+# As tarefas que serão executadas
+jobs:
+  build:
+    # A "máquina virtual" que será usada (Ubuntu é a mais comum)
+    runs-on: ubuntu-latest
+
+    # Os passos que a esteira vai seguir
+    steps:
+      # 1. Primeiro passo: Baixar o nosso código para dentro da máquina virtual
+      - uses: actions/checkout@v3
+
+      # 2. Configurar a versão do Python que queremos usar
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      # 3. Instalar as dependências (no nosso caso, o pytest)
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      # 4. Rodar os testes usando o comando que já aprendemos!
+      - name: Test with pytest
+        run: |
+          python -m pytest
